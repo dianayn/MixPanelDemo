@@ -10,7 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    private let label = UILabel()
+    private let counterLable = UILabel()
+
+    var counter = 60
+    var timer = Timer()
 
     // what is the different between loadView()  and ViewDidLoad()
     override func loadView() {
@@ -28,13 +31,13 @@ class ViewController: UIViewController {
         secondStackView.axis = .vertical
         secondStackView.spacing = 15
         view.addSubview(secondStackView)
-        secondStackView.addSubview(label)
+        secondStackView.addSubview(counterLable)
 
-        label.text = "Lable"
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = .darkText
-        label.textAlignment = .center
+        counterLable.text = "Lable"
+        counterLable.font = UIFont.preferredFont(forTextStyle: .headline)
+        counterLable.font = UIFont.boldSystemFont(ofSize: 20)
+        counterLable.textColor = .darkText
+        counterLable.textAlignment = .center
 
         let startButton = UIButton(type: .system)
         startButton.setTitle("Start", for: .normal)
@@ -54,7 +57,7 @@ class ViewController: UIViewController {
 
         stackView.addArrangedSubview(startButton)
         stackView.addArrangedSubview(stopButton)
-        secondStackView.addArrangedSubview(label)
+        secondStackView.addArrangedSubview(counterLable)
 
         NSLayoutConstraint.activate([
             stackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
@@ -75,16 +78,37 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
 
         super.viewDidLoad()
-        
+
+        counterLable.text = String(counter)
         // Do any additional setup after loading the view.
     }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
     @objc func startClick(_sender: Any) {
-        print("test")
+        if timer.isValid {
+            timer.invalidate()
+        }
+
+        counter = 60
+        counterLable.text = String(counter)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.countdown), userInfo: nil, repeats: true)
     }
 
     @objc func stopClick(_sender: Any) {
-        print("test")
+        timer.invalidate()
+    }
+
+    @objc func countdown() {
+        if(counter > 0) {
+            counter -= 1
+            counterLable.text = String(counter)
+        }
+        else {
+            timer.invalidate()
+        }
     }
 
 }
