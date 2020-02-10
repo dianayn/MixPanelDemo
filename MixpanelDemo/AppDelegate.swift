@@ -4,9 +4,10 @@
 //
 //  Created by Diana Duan on 8/2/20.
 //  Copyright © 2020 diana. All rights reserved.
-//
+//  https://www.appcoda.com/mixpanel-integration/
 
 import UIKit
+import Mixpanel
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,9 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.rootViewController = ViewController()
         window.makeKeyAndVisible()
 
+        IntialiseMixpanel()
+
         return true
     }
 
+    func IntialiseMixpanel() {
+        Mixpanel.initialize(token: "6b16a6fa951c5d1e28819f68d22cdf17")
+        Mixpanel.mainInstance().track(event: "App launched")
+    }
 
 }
 

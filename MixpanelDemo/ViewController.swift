@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Mixpanel
 
 class ViewController: UIViewController {
 
@@ -88,6 +89,7 @@ class ViewController: UIViewController {
     }
 
     @objc func startClick(_sender: Any) {
+
         if timer.isValid {
             timer.invalidate()
         }
@@ -95,10 +97,16 @@ class ViewController: UIViewController {
         counter = 60
         counterLable.text = String(counter)
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.countdown), userInfo: nil, repeats: true)
+
+        // Track Event
+        Mixpanel.mainInstance().time(event: "Timer Started")
     }
 
     @objc func stopClick(_sender: Any) {
         timer.invalidate()
+
+        // Track Event
+        Mixpanel.mainInstance().track(event: "Timer Stopped", properties: ["Counter": counterLable.text!])
     }
 
     @objc func countdown() {

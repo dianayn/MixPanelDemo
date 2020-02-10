@@ -1,0 +1,6 @@
+framework module Pods_MixpanelDemo_MixpanelDemoUITests {
+  umbrella header "Pods-MixpanelDemo-MixpanelDemoUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
