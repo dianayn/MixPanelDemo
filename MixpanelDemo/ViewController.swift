@@ -21,18 +21,24 @@ class ViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
 
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 120
-        view.addSubview(stackView)
+        let hStackView = UIStackView()
+        hStackView.translatesAutoresizingMaskIntoConstraints = false
+        hStackView.axis = .horizontal
+        hStackView.spacing = 120
+        hStackView.distribution = .fillEqually
+//        view.addSubview(stackView)
 
-        let secondStackView = UIStackView()
-        secondStackView.translatesAutoresizingMaskIntoConstraints = false
-        secondStackView.axis = .vertical
-        secondStackView.spacing = 15
-        view.addSubview(secondStackView)
-        secondStackView.addSubview(counterLable)
+        let vStackView = UIStackView()
+        vStackView.translatesAutoresizingMaskIntoConstraints = false
+        vStackView.axis = .vertical
+        vStackView.spacing = 50
+        view.addSubview(vStackView)
+        // secondStackView.addSubview(counterLable Vs secondStackView.addArrangedSubview(counterLable)
+
+        // For starckView, better use `addArrangedSubview`
+        // arrangedSubview is array, display is in the index order
+        vStackView.addArrangedSubview(counterLable)
+        vStackView.addArrangedSubview(hStackView)
 
         counterLable.text = "Lable"
         counterLable.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -56,22 +62,19 @@ class ViewController: UIViewController {
         stopButton.layer.cornerRadius = 10
         stopButton.addTarget(self, action: #selector(stopClick), for: .touchUpInside)
 
-        stackView.addArrangedSubview(startButton)
-        stackView.addArrangedSubview(stopButton)
-        secondStackView.addArrangedSubview(counterLable)
+        hStackView.addArrangedSubview(startButton)
+        hStackView.addArrangedSubview(stopButton)
 
         NSLayoutConstraint.activate([
-            stackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            stackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            startButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 60),
-            stopButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 16),
-
-            secondStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 300),
-            secondStackView.centerXAnchor.constraint(equalTo: stackView.centerXAnchor),
-
+//            define contraint for main stackview
+//            based on design, decide the contraints for UI in the stackview(container), or the screen
+            hStackView.widthAnchor.constraint(equalToConstant: 300),
+            vStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            vStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
 
+        // instance variable
+        // self , in this case, inside instance func of class, it refers to the instance of the class
         self.view = view
 
     }
